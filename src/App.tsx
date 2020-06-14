@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { createGlobalStyle } from "styled-components";
+import "./App.css";
+import Login from "./views/login";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyle />
+      <Login />
+    </>
   );
 }
 
+const GlobalStyle = createGlobalStyle`
+
+	html, body, #root {
+		width: 100%;
+		height: 100%;
+		font-family: Arial, Helvetica, sans-serif, sans-serif;
+
+	}
+
+	a {
+		color: #00695c;
+	}
+
+`;
 export default App;
