@@ -24,11 +24,15 @@ const CardContainer = styled.div`
   flex-direction: column;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); /* from: https://codepen.io/sdthornton/pen/wBZdXq  */
   border-radius: 8px;
+  max-width: 380px;
   @media (prefers-color-scheme: light) {
     background-color: #fff;
   }
   @media (prefers-color-scheme: dark) {
     background-color: #222;
+  }
+  @media (max-width: 425px) {
+    max-width: 300px;
   }
 `;
 
@@ -52,6 +56,5 @@ const CardImage = styled.picture`
   img {
     border-radius: 8px 8px 0px 0px;
     width: 100%;
-    max-width: 300px;
   }
 `;

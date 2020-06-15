@@ -1,14 +1,21 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
-import "./App.css";
 import Login from "./views/login";
+
+import { configureStore } from "@reduxjs/toolkit";
+import darkModeSlice from "./features/darkMode/darkMode.slice";
+import { Provider } from "react-redux";
+
+const store = configureStore({
+  reducer: darkModeSlice,
+});
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <GlobalStyle />
       <Login />
-    </>
+    </Provider>
   );
 }
 
