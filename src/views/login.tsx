@@ -1,20 +1,30 @@
 import React from "react";
 
-import Input from "./../UI/input/input";
-import Button from "./../UI/button/button";
+import Input from "../UI/input/input";
+import Button from "../UI/button/button";
+import Link from "../UI/link/link";
 
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import Card from "../UI/card/card";
 
-import { useSelector } from "react-redux";
-import { IoIosMoon } from "react-icons/io";
+import { useSelector, useDispatch } from "react-redux";
+import { IoIosMoon, IoIosSunny } from "react-icons/io";
+import { RootState } from "../types";
 
+import { toogleColorScheme } from "../features/darkMode/darkMode.slice";
 const Login: React.FC = () => {
-  //const darkModeOn =  useSelector()
+  const darkModeOn = useSelector((state: RootState) => state.darkmode);
+  const dispatch = useDispatch();
+  function dispatchDarkMode() {
+    dispatch(toogleColorScheme());
+  }
+
   return (
-    <LoginPage>
+    <LoginPage darkMode={darkModeOn}>
       <Card
-        image={<img src="/images/login-banner-light.png" alt="onBanking" />}
+        image={
+          <img src={`/images/login-banner-${darkModeOn}.png`} alt="onBanking" />
+        }
       >
         <SForm>
           <SLegend>Sign in on your bank account</SLegend>
@@ -23,10 +33,22 @@ const Login: React.FC = () => {
           <Button text="enter" />
         </SForm>
         <LoginHelp>
-          <a href="/forgot-password">Forgot password?</a>{" "}
-          <a href="/account">Open an account</a>
+          <Link href="/forgot-password">Forgot password?</Link>{" "}
+          <Link href="/account">Open an account</Link>
         </LoginHelp>
-        <Button icon={<IoIosMoon />} text="toogle Night mode" />
+        {darkModeOn === "LIGHT" ? (
+          <Button
+            icon={<IoIosMoon />}
+            text="Dark mode"
+            onClick={dispatchDarkMode}
+          />
+        ) : (
+          <Button
+            icon={<IoIosSunny />}
+            text="Light mode"
+            onClick={dispatchDarkMode}
+          />
+        )}
       </Card>
     </LoginPage>
   );
@@ -36,13 +58,30 @@ export default Login;
 
 /** STYLED COMPONENTS **/
 
-export const LoginPage = styled.main`
+interface LoginPageIProps {
+  darkMode: "DARK" | "LIGHT";
+}
+
+const fade = keyframes`
+  from {
+    opacity:0.3;
+  }
+
+  to {
+    opacity:1;
+  }
+`;
+
+export const LoginPage = styled.main<LoginPageIProps>`
   width: 100%;
   height: 100%;
-  background: url("images/login.jpg") center center no-repeat;
+  background: url("images/login-${(props) =>
+    props.darkMode}.jpg") center center no-repeat;
   background-size: cover;
   display: flex;
   justify-content: flex-end;
+  animation: ${fade} 300ms ease-in;
+  
 
   @media (max-width: 425px) {
     justify-content: center;

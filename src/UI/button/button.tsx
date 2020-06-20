@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { RootState } from "../../types";
 
 interface IProps extends React.ComponentPropsWithoutRef<"button"> {
   text: string;
@@ -10,9 +12,15 @@ interface IProps extends React.ComponentPropsWithoutRef<"button"> {
 
 const Button: React.FC<IProps> = (props) => {
   const { text, isLink, importance, icon } = props;
+  const darkModeOn = useSelector((state: RootState) => state.darkmode);
 
   return (
-    <SButton isLink={isLink} importance={importance} {...props}>
+    <SButton
+      isLink={isLink}
+      importance={importance}
+      darkMode={darkModeOn}
+      {...props}
+    >
       {icon}
       {text}
     </SButton>
@@ -21,12 +29,18 @@ const Button: React.FC<IProps> = (props) => {
 
 export default Button;
 
-const SButton = styled.button`
-  border: 1px solid #ccc;
-  border-radius: 2px;
+interface SButtonIProps {
+  darkMode: "DARK" | "LIGHT";
+}
+const SButton = styled.button<SButtonIProps>`
+  border-radius: 4px;
+  border: none;
   text-transform: uppercase;
-  height: 1.5rem;
-  line-height: 1.2rem;
+  height: 1.9rem;
+  line-height: 1.4rem;
   font-weight: bold;
   cursor: pointer;
+  background-color: ${(props) =>
+    props.darkMode === "DARK" ? "#55d5dc" : "#00695c"};
+  color: ${(props) => (props.darkMode === "DARK" ? "#333" : "#fff")};
 `;

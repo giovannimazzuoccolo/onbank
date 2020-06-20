@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { RootState } from "../../types";
 
 interface IProps {
   title?: string;
@@ -7,8 +9,10 @@ interface IProps {
 }
 
 const Card: React.FC<IProps> = ({ title, image, children }) => {
+  const darkModeOn = useSelector((state: RootState) => state.darkmode);
+
   return (
-    <CardContainer>
+    <CardContainer darkMode={darkModeOn}>
       {image && <CardImage>{image}</CardImage>}
       {title && <CardTitle>{title}</CardTitle>}
       {children}
@@ -18,21 +22,23 @@ const Card: React.FC<IProps> = ({ title, image, children }) => {
 
 export default Card;
 
-const CardContainer = styled.div`
+interface CardContainerIProps {
+  darkMode: string;
+}
+
+const CardContainer = styled.div<CardContainerIProps>`
   padding: 8px 16px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); /* from: https://codepen.io/sdthornton/pen/wBZdXq  */
-  border-radius: 8px;
   max-width: 380px;
-  @media (prefers-color-scheme: light) {
-    background-color: #fff;
-  }
-  @media (prefers-color-scheme: dark) {
-    background-color: #222;
-  }
+
+  background-color: ${(props) => (props.darkMode === "DARK" ? "#333" : "#fff")};
+  color: ${(props) => (props.darkMode === "DARK" ? "#fafafa" : "inherit")};
+
   @media (max-width: 425px) {
     max-width: 300px;
+    border-radius: 8px;
   }
 `;
 
