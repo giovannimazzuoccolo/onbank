@@ -4,11 +4,11 @@ import Input from "../UI/input/input";
 import Button from "../UI/button/button";
 import Link from "../UI/link/link";
 
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import Card from "../UI/card/card";
 
 import { useSelector, useDispatch } from "react-redux";
-import { IoIosMoon, IoIosSunny } from "react-icons/io";
+import { IoIosMoon, IoIosSunny, IoIosGitBranch } from "react-icons/io";
 import { RootState } from "../types";
 
 import { toogleColorScheme } from "../features/darkMode/darkMode.slice";
@@ -36,19 +36,37 @@ const Login: React.FC = () => {
           <Link href="/forgot-password">Forgot password?</Link>{" "}
           <Link href="/account">Open an account</Link>
         </LoginHelp>
-        {darkModeOn === "LIGHT" ? (
-          <Button
-            icon={<IoIosMoon />}
-            text="Dark mode"
-            onClick={dispatchDarkMode}
-          />
-        ) : (
-          <Button
-            icon={<IoIosSunny />}
-            text="Light mode"
-            onClick={dispatchDarkMode}
-          />
-        )}
+
+        <LoginExtra>
+          <div>
+            {darkModeOn === "LIGHT" ? (
+              <Button
+                icon={<IoIosMoon />}
+                text="Dark mode"
+                onClick={dispatchDarkMode}
+                fullWidth
+              />
+            ) : (
+              <Button
+                icon={<IoIosSunny />}
+                text="Light mode"
+                onClick={dispatchDarkMode}
+                fullWidth
+              />
+            )}
+          </div>
+          <div>
+            <Button
+              icon={<IoIosGitBranch />}
+              text="GitHub"
+              onClick={() => {
+                document.location.href =
+                  "https://github.com/giovannimazzuoccolo/onbank";
+              }}
+              fullWidth
+            />
+          </div>
+        </LoginExtra>
       </Card>
     </LoginPage>
   );
@@ -62,16 +80,6 @@ interface LoginPageIProps {
   darkMode: "DARK" | "LIGHT";
 }
 
-const fade = keyframes`
-  from {
-    opacity:0.3;
-  }
-
-  to {
-    opacity:1;
-  }
-`;
-
 export const LoginPage = styled.main<LoginPageIProps>`
   width: 100%;
   height: 100%;
@@ -80,7 +88,7 @@ export const LoginPage = styled.main<LoginPageIProps>`
   background-size: cover;
   display: flex;
   justify-content: flex-end;
-  animation: ${fade} 300ms ease-in;
+  transition: 250ms all ease-in;
   
 
   @media (max-width: 425px) {
@@ -103,4 +111,15 @@ export const LoginHelp = styled.div`
 export const SLegend = styled.legend`
   margin: 8px 0px;
   font-size: 0.9rem;
+`;
+
+export const LoginExtra = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 32px;
+  > div {
+    width: 49%;
+    display: flex;
+  }
 `;

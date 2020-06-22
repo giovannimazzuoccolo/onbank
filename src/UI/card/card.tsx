@@ -35,7 +35,7 @@ const CardContainer = styled.div<CardContainerIProps>`
 
   background-color: ${(props) => (props.darkMode === "DARK" ? "#333" : "#fff")};
   color: ${(props) => (props.darkMode === "DARK" ? "#fafafa" : "inherit")};
-
+  transition: 250ms all ease-in;
   @media (max-width: 425px) {
     max-width: 300px;
     border-radius: 8px;
