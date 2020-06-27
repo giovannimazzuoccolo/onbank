@@ -32,7 +32,11 @@ const GlobalStyle = createGlobalStyle`
 
 	a {
 		color: #00695c;
-	}
+  }
+  
+  p {
+    margin: 0;
+  }
 
 `;
 export default App;

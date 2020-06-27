@@ -12,6 +12,7 @@ import { IoIosMoon, IoIosSunny, IoIosGitBranch } from "react-icons/io";
 import { RootState } from "../types";
 
 import { toogleColorScheme } from "../features/darkMode/darkMode.slice";
+import AlertBar from "../UI/alertBar/alertBar";
 const Login: React.FC = () => {
   const darkModeOn = useSelector((state: RootState) => state.darkmode);
   const dispatch = useDispatch();
@@ -27,6 +28,12 @@ const Login: React.FC = () => {
         }
       >
         <SForm>
+          <AlertBar level="INFO" dismissable={false}>
+            <p>
+              For the demo: email <strong>demo@demo.com</strong>, password:
+              <strong>pass</strong>
+            </p>
+          </AlertBar>
           <SLegend>Sign in on your bank account</SLegend>
           <Input type="email" placeholder="Email" />
           <Input type="password" placeholder="Password" />
