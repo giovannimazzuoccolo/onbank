@@ -42,6 +42,7 @@ const SButton = styled.button<SButtonIProps>`
   height: 2.2rem;
   line-height: 1.4rem;
   font-weight: bold;
+  margin-top: 14px;
   cursor: pointer;
   width: ${(props) => (props.fullWidth ? "100%" : "auto")};
   background-color: ${(props) =>

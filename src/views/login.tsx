@@ -10,15 +10,65 @@ import Card from "../UI/card/card";
 import { useSelector, useDispatch } from "react-redux";
 import { IoIosMoon, IoIosSunny, IoIosGitBranch } from "react-icons/io";
 import { RootState } from "../types";
-
+import { biggerThan0 } from "../utils/dataValidation";
+import useInput from "../hooks/useInput";
 import { toogleColorScheme } from "../features/darkMode/darkMode.slice";
 import AlertBar from "../UI/alertBar/alertBar";
+
+interface LoginState {
+  pressed: boolean;
+  withErrors: boolean;
+}
+
 const Login: React.FC = () => {
+  /*
+
+  const [{ pressed, withErrors, clearErrors }] = React.useReducer(reducer, {
+    {
+      pressed: false,
+      withErrors: false
+    }
+  })*/
+
+  const email = useInput({
+    value: "",
+    errors: [
+      {
+        condition: biggerThan0,
+        message: "Please add the email value",
+      },
+    ],
+  });
+
+  const password = useInput({
+    value: "",
+    errors: [
+      {
+        condition: biggerThan0,
+        message: "Please add the password value",
+      },
+    ],
+  });
+
+  function loginProcess(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (email.errorList.length > 0 && password.errorList.length > 0) {
+      setFormSubmit(true);
+    } else {
+      setFormSubmit(false);
+    }
+
+    return false;
+  }
+
   const darkModeOn = useSelector((state: RootState) => state.darkmode);
   const dispatch = useDispatch();
   function dispatchDarkMode() {
     dispatch(toogleColorScheme());
   }
+
+  const [formSubmitted, setFormSubmit] = React.useState<boolean>(false);
 
   return (
     <LoginPage darkMode={darkModeOn}>
@@ -27,7 +77,7 @@ const Login: React.FC = () => {
           <img src={`/images/login-banner-${darkModeOn}.png`} alt="onBanking" />
         }
       >
-        <SForm>
+        <SForm onSubmit={loginProcess}>
           <AlertBar level="INFO" dismissable={false}>
             <p>
               For the demo: email <strong>demo@demo.com</strong>, password:
@@ -35,8 +85,17 @@ const Login: React.FC = () => {
             </p>
           </AlertBar>
           <SLegend>Sign in on your bank account</SLegend>
-          <Input type="email" placeholder="Email" />
-          <Input type="password" placeholder="Password" />
+          <Input
+            type="email"
+            placeholder="Email"
+            name="email"
+            value={email.value}
+            onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              email.setValue(e.currentTarget.value);
+            }}
+            errorText={formSubmitted ? email.errorList.toString() : ""}
+          />
+          <Input type="password" placeholder="Password" name="password" />
           <Button text="enter" />
         </SForm>
         <LoginHelp>
